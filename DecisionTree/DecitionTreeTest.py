@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @Time  : 2019/7/11 22:44
-@Author : 38681
+@Author :
 @Desc :
 """
 from math import log
