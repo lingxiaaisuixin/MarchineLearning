@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @Time  : 2019/7/21 16:33
-@Author : SundialDreams
+@Author : StarsDreams
 @Desc :鸢尾花 使用Sklearn库KNN算法识别鸢尾花类别
 """
 import pandas as pd
