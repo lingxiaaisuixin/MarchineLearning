@@ -5,8 +5,6 @@
 @Author :
 @Desc :完整的手写字训练集和测试集
 """
-# !/usr/bin/python
-# -*-coding:utf-8-*-
 from numpy import *
 import operator
 from os import listdir
