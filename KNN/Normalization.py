@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @Time  : 2019/7/21 16:14
-@Author : SundialDreams
+@Author : StarsDreams
 @Desc :归一化
 归一化公式：
     Y = (X-Xmin)/(Xmax-Xmin)
