@@ -6,7 +6,8 @@
 @Desc :
 """
 from math import log
-import numpy as np
+
+
 def createDataSet():
     """
     :return: dataset,labels
@@ -15,9 +16,11 @@ def createDataSet():
     不浮出水面是否可以生存
     是否有脚蹼
     """
-    dataSet = [[1,1,'yes'],[1,1,'yes'],[1,0,'no'],[0,1,'no'],[0,1,'no']]
-    labels = ['no surfacing','flippers']
-    return dataSet,labels
+    dataSet = [[1, 1, 'yes'], [1, 1, 'yes'], [1, 0, 'no'], [0, 1, 'no'], [0, 1, 'no']]
+    labels = ['no surfacing', 'flippers']
+    return dataSet, labels
+
+
 def calcShannonEnt(dataSet):
     """
     :param dataSet:
@@ -39,14 +42,14 @@ def calcShannonEnt(dataSet):
     shannonEnt = 0.0
     for key in labelCounts:
         # 使用所有类标签的发生频率计算类别出现的概率。
-        prob = float(labelCounts[key])/numEnreies
+        prob = float(labelCounts[key]) / numEnreies
         # 计算香农熵，以 2 为底求对数
-        shannonEnt -= prob * log(prob,2)
+        shannonEnt -= prob * log(prob, 2)
     return shannonEnt
+
+
 if __name__ == "__main__":
-    myDat,labels = createDataSet()
+    myDat, labels = createDataSet()
     print(myDat)
     shannon = calcShannonEnt(myDat)
     print(shannon)
-
-

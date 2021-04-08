@@ -1,8 +1,9 @@
 #!/usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 from numpy import *
 import operator
 from os import listdir
+
 
 def classify0(inX, dataSet, labels, k):
     """l
@@ -20,7 +21,7 @@ def classify0(inX, dataSet, labels, k):
     """
     # 数据集的大小
     dataSetSize = dataSet.shape[0]
-    #函数tile(A,reps) A为原数组
+    # 函数tile(A,reps) A为原数组
     """
     假设reps为（a,b,c,d,e,f） 数字从右到左，数组维度从最深维度到最低维度,则数组最深维度重复f次；
     然后次深维度重复e次；接着次次深维度重复d次；再然后次次次深维度重复c次…… 
@@ -36,18 +37,18 @@ def classify0(inX, dataSet, labels, k):
            [[0, 1, 2, 0, 1, 2]]])
     """
     # 距离度量，度量公式欧氏距离
-    diffMat = tile(inX, (dataSetSize,1)) - dataSet
+    diffMat = tile(inX, (dataSetSize, 1)) - dataSet
     # 取平方
-    sqDiffMat = diffMat**2
+    sqDiffMat = diffMat ** 2
     # 将矩阵的每一行相加
     sqDistances = sqDiffMat.sum(axis=1)
     # 开方
-    distances = sqDistances**0.5
+    distances = sqDistances ** 0.5
     # 根据距离排序从小到大的排序，返回对应的索引位置
     # argsort() 是将x中的元素从小到大排列，提取其对应的index（索引），然后输出到y。
     # 例如：y=array([3,0,2,1,5]) 则y.argsort() = [1 3 2 0 4]
-    sortedDistIndicies = distances.argsort()            
-    classCount={}
+    sortedDistIndicies = distances.argsort()
+    classCount = {}
     # 选择距离最小的k的个数
     for i in range(k):
         voteIlabel = labels[sortedDistIndicies[i]]
@@ -57,7 +58,7 @@ def classify0(inX, dataSet, labels, k):
         data.get(3,0)返回的值是4；
         data.get（1,0）返回值是0；
         """
-        classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
+        classCount[voteIlabel] = classCount.get(voteIlabel, 0) + 1
     """
     字典的 items() 方法，以列表返回可遍历的(键，值)元组数组。
     例如：dict = {'Name': 'Zara', 'Age': 7}   print "Value : %s" %  dict.items()   Value : [('Age', 7), ('Name', 'Zara')]
@@ -68,19 +69,22 @@ def classify0(inX, dataSet, labels, k):
     """
     sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
     return sortedClassCount[0][0]
+
+
 def img2vector(filename):
     """
     将文件中的图片信息转化为1*1024的向量。
     :param filename: 文件名称，如0_1.txt
     :return: returnVect 返回一个1*1024的向量
     """
-    returnVect = zeros((1,1024))
+    returnVect = zeros((1, 1024))
     fr = open(filename)
     for i in range(32):
         lineStr = fr.readline()
         for j in range(32):
-            returnVect[0,32*i+j] = int(lineStr[j])
+            returnVect[0, 32 * i + j] = int(lineStr[j])
     return returnVect
+
 
 def handwritingClassTest():
     """
@@ -91,27 +95,29 @@ def handwritingClassTest():
     trainingFileList = listdir('data/trainingDigits')
     m = len(trainingFileList)
     # hwLabels存储0～9对应的index位置， trainingMat存放的每个位置对应的图片向量
-    trainingMat = zeros((m,1024))
+    trainingMat = zeros((m, 1024))
     for i in range(m):
-        fileNameStr = trainingFileList[i]                  
-        fileStr = fileNameStr.split('.')[0]                
-        classNumStr = int(fileStr.split('_')[0])          
+        fileNameStr = trainingFileList[i]
+        fileStr = fileNameStr.split('.')[0]
+        classNumStr = int(fileStr.split('_')[0])
         hwLabels.append(classNumStr)
-        trainingMat[i,:] = img2vector('data/trainingDigits/%s' % fileNameStr)
-     
+        trainingMat[i, :] = img2vector('data/trainingDigits/%s' % fileNameStr)
+
     testFileList = listdir('data/testDigits')
     errorCount = 0.0
     mTest = len(testFileList)
     for i in range(mTest):
         fileNameStr = testFileList[i]
-        fileStr = fileNameStr.split('.')[0]     
+        fileStr = fileNameStr.split('.')[0]
         classNumStr = int(fileStr.split('_')[0])
         vectorUnderTest = img2vector('data/testDigits/%s' % fileNameStr)
         classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, 3)
         print("the classifier came back with: %d, the real answer is: %d" % (classifierResult, classNumStr))
         if (classifierResult != classNumStr): errorCount += 1.0
     print("\nthe total number of errors is: %d" % errorCount)
-    print("\nthe total error rate is: %f" % (errorCount/float(mTest)))
-    print("\nthe total accuracy rate is: %f" % ((mTest-errorCount)/mTest*100),'%')
-if __name__=="__main__":
+    print("\nthe total error rate is: %f" % (errorCount / float(mTest)))
+    print("\nthe total accuracy rate is: %f" % ((mTest - errorCount) / mTest * 100), '%')
+
+
+if __name__ == "__main__":
     handwritingClassTest()
